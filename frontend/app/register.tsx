@@ -2,12 +2,12 @@ import { Stack, useRouter } from "expo-router";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
 
   return (
     <>
-      <Stack.Screen options={{ title: "Login" }} />
+      <Stack.Screen options={{ title: "Register" }} />
 
       <LinearGradient
         colors={["#e0f7fa", "#80deea", "#26c6da"]}
@@ -15,12 +15,20 @@ export default function Login() {
       >
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           {/* App Title */}
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>Register</Text>
 
-          {/* Welcome Back Text */}
+          {/* Create Account Text */}
           <Text style={styles.subtitle}>
-            Welcome back! Please login to continue.
+            Create your account and start your journey!
           </Text>
+
+          {/* Name Input */}
+          <TextInput
+            style={styles.input}
+            placeholder="Full Name"
+            autoCapitalize="words"
+            placeholderTextColor="#666"
+          />
 
           {/* Email Input */}
           <TextInput
@@ -39,21 +47,29 @@ export default function Login() {
             placeholderTextColor="#666"
           />
 
-          {/* Login Button */}
+          {/* Confirm Password Input */}
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            secureTextEntry
+            placeholderTextColor="#666"
+          />
+
+          {/* Register Button */}
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
 
-          {/* Register Redirect */}
+          {/* Login Redirect */}
           <TouchableOpacity
-            onPress={() => router.push("/register")}
+            onPress={() => router.push("/login")}
             style={{ marginTop: 20 }}
           >
-            <Text style={styles.registerText}>
-              Don't have an account? <Text style={{ fontWeight: "bold", color: "#005f73" }}>Register</Text>
+            <Text style={styles.loginText}>
+              Already have an account? <Text style={{ fontWeight: "bold", color: "#005f73" }}>Login</Text>
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -98,12 +114,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 2, // Android shadow
+    elevation: 2,
   },
   button: {
     backgroundColor: "#0077b6",
     paddingVertical: 15,
-    paddingHorizontal: 100,
+    paddingHorizontal: 90,
     borderRadius: 30,
     elevation: 5,
     shadowColor: "#000",
@@ -118,7 +134,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
-  registerText: {
+  loginText: {
     fontSize: 16,
     color: "#00334d",
     marginTop: 10,
