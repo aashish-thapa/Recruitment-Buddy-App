@@ -39,10 +39,13 @@ export default function Login() {
             placeholderTextColor="#666"
           />
 
-          {/* Login Button */}
+          {/* Login Button for now I am not gonna validate login credentiial */}
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
+            onPress={()=> {
+                router.push("/home");
+            }}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>

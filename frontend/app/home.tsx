@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from 
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home() {
+    // const router = useRouter();
   return (
     <>
       <Stack.Screen options={{ title: "Home" }} />
