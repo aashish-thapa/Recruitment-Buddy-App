@@ -1,19 +1,43 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-    // const router = useRouter();
+  const router = useRouter();
+  const { recommendations } = useLocalSearchParams();
+
+  // Parse recommendations if available
+  const parsedRecommendations = recommendations ? JSON.parse(recommendations as string) : [];
+
+  // For now, assume questionnaire is not completed if no recommendations
+  const [questionnaireCompleted, setQuestionnaireCompleted] = useState<boolean>(parsedRecommendations.length > 0);
+
+  useEffect(() => {
+    if (parsedRecommendations.length > 0) {
+      setQuestionnaireCompleted(true);
+    }
+  }, [recommendations]);
+
   return (
     <>
       <Stack.Screen options={{ title: "Home" }} />
 
-      <LinearGradient
-        colors={["#e0f7fa", "#80deea", "#26c6da"]}
-        style={styles.container}
-      >
+      <LinearGradient colors={["#e0f7fa", "#80deea", "#26c6da"]} style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           
+          {/* If questionnaire not completed, show the box */}
+          {!questionnaireCompleted && (
+            <TouchableOpacity
+              style={styles.questionnaireBox}
+              onPress={() => router.push("/questionnaire")}
+            >
+              <Text style={styles.questionnaireText}>
+                Complete this questionnaire for better program recommendations 🎯
+              </Text>
+            </TouchableOpacity>
+          )}
+
           {/* Welcome Message */}
           <Text style={styles.welcomeText}>Welcome, Aashish! 👋</Text>
 
@@ -24,33 +48,24 @@ export default function Home() {
             placeholderTextColor="#666"
           />
 
-          {/* Recommendations Section Title */}
+          {/* Recommendations Section */}
           <Text style={styles.sectionTitle}>Recommended For You</Text>
 
-          {/* Mocked Recommendation Cards */}
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Bachelor of Computer Science</Text>
-            <Text style={styles.cardSubtitle}>University of Southern Mississippi</Text>
-            <TouchableOpacity style={styles.cardButton}>
-              <Text style={styles.cardButtonText}>View Details</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Data Science and AI Program</Text>
-            <Text style={styles.cardSubtitle}>Stanford Online</Text>
-            <TouchableOpacity style={styles.cardButton}>
-              <Text style={styles.cardButtonText}>View Details</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Cybersecurity Bootcamp</Text>
-            <Text style={styles.cardSubtitle}>Georgia Tech Professional Education</Text>
-            <TouchableOpacity style={styles.cardButton}>
-              <Text style={styles.cardButtonText}>View Details</Text>
-            </TouchableOpacity>
-          </View>
+          {parsedRecommendations.length > 0 ? (
+            parsedRecommendations.map((program: any, index: number) => (
+              <View key={index} style={styles.card}>
+                <Text style={styles.cardTitle}>{program.name}</Text>
+                <Text style={styles.cardSubtitle}>Match Score: {program.score}</Text>
+                <TouchableOpacity style={styles.cardButton}>
+                  <Text style={styles.cardButtonText}>View Details</Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text style={{ textAlign: "center", color: "#777" }}>
+              No recommendations yet. Please complete your questionnaire first.
+            </Text>
+          )}
 
         </ScrollView>
       </LinearGradient>
@@ -65,6 +80,25 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 20,
+  },
+  questionnaireBox: {
+    backgroundColor: "#fffbeb",
+    borderColor: "#facc15",
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 4,
+  },
+  questionnaireText: {
+    fontSize: 16,
+    color: "#78350f",
+    fontWeight: "500",
+    textAlign: "center",
   },
   welcomeText: {
     fontSize: 28,
@@ -113,7 +147,7 @@ const styles = StyleSheet.create({
   cardSubtitle: {
     fontSize: 14,
     color: "#555",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   cardButton: {
     backgroundColor: "#0077b6",
