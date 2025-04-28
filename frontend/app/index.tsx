@@ -1,5 +1,5 @@
 import { Stack, useRouter } from "expo-router";
-import { ScrollView, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   heroTitle: {
+    fontFamily: Platform.OS === "ios" ? "Avenir-Heavy" : "sans-serif-condensed",
     fontSize: 40,
     fontWeight: "bold",
     color: "#003f5c",
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   heroSubtitle: {
+    fontFamily: Platform.OS === "ios" ? "Avenir-Medium" : "sans-serif",
     fontSize: 20,
     color: "#005f73",
     marginBottom: 30,

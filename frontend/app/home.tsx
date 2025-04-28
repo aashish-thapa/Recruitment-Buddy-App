@@ -5,12 +5,11 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+
   const { recommendations } = useLocalSearchParams();
 
-  // Parse recommendations if available
   const parsedRecommendations = recommendations ? JSON.parse(recommendations as string) : [];
 
-  // For now, assume questionnaire is not completed if no recommendations
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState<boolean>(parsedRecommendations.length > 0);
 
   useEffect(() => {
@@ -19,21 +18,25 @@ export default function Home() {
     }
   }, [recommendations]);
 
+  // Top Recommendation and Alternatives
+  const bestRecommendation = parsedRecommendations.length > 0 ? parsedRecommendations[0] : null;
+  const alternativeRecommendations = parsedRecommendations.slice(1);
+
   return (
     <>
-      <Stack.Screen options={{ title: "Home" }} />
+      <Stack.Screen options={{ headerShown : true}} />
 
       <LinearGradient colors={["#e0f7fa", "#80deea", "#26c6da"]} style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          
-          {/* If questionnaire not completed, show the box */}
+
+          {/* Questionnaire Reminder */}
           {!questionnaireCompleted && (
             <TouchableOpacity
               style={styles.questionnaireBox}
               onPress={() => router.push("/questionnaire")}
             >
               <Text style={styles.questionnaireText}>
-                Complete this questionnaire for better program recommendations 🎯
+                Complete the questionnaire for better recommendations 🎯
               </Text>
             </TouchableOpacity>
           )}
@@ -48,25 +51,49 @@ export default function Home() {
             placeholderTextColor="#666"
           />
 
-          {/* Recommendations Section */}
-          <Text style={styles.sectionTitle}>Recommended For You</Text>
-
-          {parsedRecommendations.length > 0 ? (
-            parsedRecommendations.map((program: any, index: number) => (
-              <View key={index} style={styles.card}>
-                <Text style={styles.cardTitle}>{program.name}</Text>
-                <Text style={styles.cardSubtitle}>Match Score: {program.score}</Text>
+          {/* Recommended Program */}
+          {bestRecommendation && (
+            <>
+              <Text style={styles.sectionTitle}>🎯 Recommended Program</Text>
+              <View style={[styles.card, styles.goldCard]}>
+                <Text style={styles.cardTitle}>{bestRecommendation.program.name}</Text>
+                <Text style={styles.cardSubtitle}>University: {bestRecommendation.program.university}</Text>
+                <Text style={styles.cardSubtitle}>Country: {bestRecommendation.program.country}</Text>
+                <Text style={styles.cardSubtitle}>Degree: {bestRecommendation.program.degreeLevel}</Text>
+                <Text style={styles.cardSubtitle}>Match Score: {bestRecommendation.score}</Text>
                 <TouchableOpacity style={styles.cardButton}>
                   <Text style={styles.cardButtonText}>View Details</Text>
                 </TouchableOpacity>
               </View>
-            ))
-          ) : (
-            <Text style={{ textAlign: "center", color: "#777" }}>
+            </>
+          )}
+
+          {/* Alternative Programs */}
+          {alternativeRecommendations.length > 0 && (
+            <>
+              <Text style={styles.sectionTitle}>🛤️ Alternative Programs</Text>
+              {alternativeRecommendations.map((item: any, index: number) => (
+                <View key={index} style={styles.card}>
+                  <Text style={styles.cardTitle}>{item.program.name}</Text>
+                  <Text style={styles.cardSubtitle}>University: {item.program.university}</Text>
+                  <Text style={styles.cardSubtitle}>Country: {item.program.country}</Text>
+                  <Text style={styles.cardSubtitle}>Degree: {item.program.degreeLevel}</Text>
+                  <Text style={styles.cardSubtitle}>Match Score: {item.score}</Text>
+                  <TouchableOpacity style={styles.cardButton}>
+                    <Text style={styles.cardButtonText}>View Details</Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </>
+          )}
+
+          {/* No recommendations */}
+          {parsedRecommendations.length === 0 && (
+            <Text style={{ textAlign: "center", color: "#777", marginTop: 20 }}>
               No recommendations yet. Please complete your questionnaire first.
             </Text>
           )}
-
+          
         </ScrollView>
       </LinearGradient>
     </>
@@ -123,9 +150,9 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 22,
-    fontWeight: "600",
+    fontWeight: "700",
     color: "#005f73",
-    marginBottom: 20,
+    marginVertical: 20,
   },
   card: {
     backgroundColor: "white",
@@ -138,6 +165,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  goldCard: {
+    backgroundColor: "#fff9db", // Light Gold
+    borderWidth: 2,
+    borderColor: "#facc15", // Golden Border
+  },
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -147,7 +179,7 @@ const styles = StyleSheet.create({
   cardSubtitle: {
     fontSize: 14,
     color: "#555",
-    marginBottom: 10,
+    marginBottom: 5,
   },
   cardButton: {
     backgroundColor: "#0077b6",
@@ -155,6 +187,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     alignSelf: "flex-start",
+    marginTop: 10,
   },
   cardButtonText: {
     color: "white",

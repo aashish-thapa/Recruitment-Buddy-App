@@ -1,10 +1,20 @@
 import { Stack, useRouter } from "expo-router";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-
+import {useState} from "react";
 export default function Login() {
   const router = useRouter();
 
+  const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+  const handleLogin = () => {
+    // Handle login logic here
+    if(email == "admin" && password == "user123"){
+        router.replace("/home");
+    }
+    else{
+        Alert.alert("Invalid credentials");
+    }
   return (
     <>
       <Stack.Screen options={{ title: "Login" }} />
@@ -29,6 +39,8 @@ export default function Login() {
             keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#666"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
 
           {/* Password Input */}
@@ -37,15 +49,15 @@ export default function Login() {
             placeholder="Password"
             secureTextEntry
             placeholderTextColor="#666"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
 
           {/* Login Button for now I am not gonna validate login credentiial */}
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
-            onPress={()=> {
-                router.push("/home");
-            }}
+            onPress={handleLogin}
           >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
