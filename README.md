@@ -1,7 +1,7 @@
----
+
 # 📚 Recruitment Buddy
 
-Welcome to **Recruitment Buddy** — your personalized career and education recommendation app! 🚀  
+Welcome to **Recruitment Buddy** — your personalized career and education recommendation app! 
 This app helps students find the best-matched university programs based on their interests, career goals, learning style, and location preferences.
 ---
 
