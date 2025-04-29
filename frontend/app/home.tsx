@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-      <Stack.Screen options={{ headerShown : true}} />
+      <Stack.Screen options={{ title: 'Home'}} />
 
       <LinearGradient colors={["#e0f7fa", "#80deea", "#26c6da"]} style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -61,7 +61,7 @@ export default function Home() {
                 <Text style={styles.cardSubtitle}>Country: {bestRecommendation.program.country}</Text>
                 <Text style={styles.cardSubtitle}>Degree: {bestRecommendation.program.degreeLevel}</Text>
                 <Text style={styles.cardSubtitle}>Match Score: {bestRecommendation.score}</Text>
-                <TouchableOpacity style={styles.cardButton}>
+                <TouchableOpacity style={styles.cardButton} onPress={() => router.push({ pathname: "/programdetails", params: { program: JSON.stringify(bestRecommendation.program) } })}>  
                   <Text style={styles.cardButtonText}>View Details</Text>
                 </TouchableOpacity>
               </View>
@@ -79,7 +79,7 @@ export default function Home() {
                   <Text style={styles.cardSubtitle}>Country: {item.program.country}</Text>
                   <Text style={styles.cardSubtitle}>Degree: {item.program.degreeLevel}</Text>
                   <Text style={styles.cardSubtitle}>Match Score: {item.score}</Text>
-                  <TouchableOpacity style={styles.cardButton}>
+                  <TouchableOpacity style={styles.cardButton} onPress={() => router.push({ pathname: "/programdetails", params: { program: JSON.stringify(item.program) } })}>
                     <Text style={styles.cardButtonText}>View Details</Text>
                   </TouchableOpacity>
                 </View>

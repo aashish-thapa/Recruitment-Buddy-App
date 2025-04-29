@@ -1,20 +1,21 @@
 import { Stack, useRouter } from "expo-router";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import {useState} from "react";
+import { useState } from "react";
+
 export default function Login() {
   const router = useRouter();
-
   const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleLogin = () => {
-    // Handle login logic here
-    if(email == "admin" && password == "user123"){
-        router.replace("/home");
+    if (email === "admin" && password === "user123") {
+      router.replace("/home"); // Successful login
+    } else {
+      Alert.alert("Invalid credentials", "Please check your username and password.");
     }
-    else{
-        Alert.alert("Invalid credentials");
-    }
+  };
+
   return (
     <>
       <Stack.Screen options={{ title: "Login" }} />
@@ -35,8 +36,8 @@ export default function Login() {
           {/* Email Input */}
           <TextInput
             style={styles.input}
-            placeholder="Email"
-            keyboardType="email-address"
+            placeholder="Username"
+            keyboardType="default"
             autoCapitalize="none"
             placeholderTextColor="#666"
             value={email}
@@ -53,7 +54,7 @@ export default function Login() {
             onChangeText={(text) => setPassword(text)}
           />
 
-          {/* Login Button for now I am not gonna validate login credentiial */}
+          {/* Login Button */}
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
@@ -68,7 +69,8 @@ export default function Login() {
             style={{ marginTop: 20 }}
           >
             <Text style={styles.registerText}>
-              Don't have an account? <Text style={{ fontWeight: "bold", color: "#005f73" }}>Register</Text>
+              Don't have an account?{" "}
+              <Text style={{ fontWeight: "bold", color: "#005f73" }}>Register</Text>
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 2, // Android shadow
+    elevation: 2,
   },
   button: {
     backgroundColor: "#0077b6",
