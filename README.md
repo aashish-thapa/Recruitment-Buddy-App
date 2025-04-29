@@ -1,19 +1,4 @@
-Absolutely, Aashish 🔥 —  
-A **professional `README.md`** is super important, especially for a semester project or portfolio project.
 
-I’ll create a **very detailed and polished `README.md`** for you based on everything we built (Recruitment Buddy app) — including:
-
-✅ Project description  
-✅ Features list  
-✅ Screenshots (placeholder links for now)  
-✅ Setup instructions  
-✅ How to use the app  
-✅ Technologies used  
-✅ Credits / contact info
-
----
-
-# 🚀 Here’s your full `README.md` for Recruitment Buddy:
 
 ```markdown
 # 📚 Recruitment Buddy
