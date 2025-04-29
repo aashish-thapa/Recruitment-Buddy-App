@@ -44,8 +44,8 @@ https://github.com/user-attachments/assets/d678c47b-0387-4fef-9298-cbb1b4dd8676
 1. **Clone this repo**:
 
    ```bash
-   git clone https://github.com/yourusername/recruitment-buddy.git
-   cd recruitment-buddy
+   git clone https://github.com/Abenier/Group-9-
+   cd frontend
    ```
 
 2. **Install dependencies**:
