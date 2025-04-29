@@ -3,82 +3,63 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert 
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from "react";
 
-export default function Login() {
+export default function ForgetPassword() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (email === "admin" && password === "user123") {
-      router.replace("/home"); // Successful login
-    } else {
-      Alert.alert("Invalid credentials", "Please check your username and password.");
+  const handleSendReset = () => {
+    if (!email.includes("@")) {
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      return;
     }
+    // Later here you would call API to send real reset link
+    Alert.alert("Password Reset", "If this email exists, a reset link has been sent!");
+    router.push("/login");
   };
 
   return (
     <>
-      <Stack.Screen options={{ title: "Login" }} />
+      <Stack.Screen options={{ title: "Forget Password" }} />
 
-      <LinearGradient
-        colors={["#e0f7fa", "#80deea", "#26c6da"]}
-        style={styles.container}
-      >
+      <LinearGradient colors={["#e0f7fa", "#80deea", "#26c6da"]} style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-          {/* App Title */}
-          <Text style={styles.title}>Login</Text>
-
-          {/* Welcome Back Text */}
+          
+          {/* Title */}
+          <Text style={styles.title}>Forgot your password?</Text>
           <Text style={styles.subtitle}>
-            Welcome back! Please login to continue.
+            No worries! Enter your registered email and we’ll send you instructions to reset your password.
           </Text>
 
           {/* Email Input */}
           <TextInput
             style={styles.input}
-            placeholder="Username"
-            keyboardType="default"
+            placeholder="Enter your email"
+            keyboardType="email-address"
             autoCapitalize="none"
             placeholderTextColor="#666"
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
 
-          {/* Password Input */}
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-            placeholderTextColor="#666"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-
-          {/* Login Button */}
+          {/* Send Reset Button */}
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
-            onPress={handleLogin}
+            onPress={handleSendReset}
           >
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Send Reset Link</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/forget-password")} style={{ marginTop: 10 }}>
-            <Text style={{ color: "#0077b6", fontSize: 14 }}>
-                Forgot Password?
-            </Text>
-            </TouchableOpacity>
 
-
-          {/* Register Redirect */}
+          {/* Back to Login */}
           <TouchableOpacity
-            onPress={() => router.push("/register")}
+            onPress={() => router.push("/login")}
             style={{ marginTop: 20 }}
           >
-            <Text style={styles.registerText}>
-              Don't have an account?{" "}
-              <Text style={{ fontWeight: "bold", color: "#005f73" }}>Register</Text>
+            <Text style={styles.backToLoginText}>
+              Back to <Text style={{ fontWeight: "bold", color: "#005f73" }}>Login</Text>
             </Text>
           </TouchableOpacity>
+
         </ScrollView>
       </LinearGradient>
     </>
@@ -96,13 +77,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#003f5c",
     marginBottom: 10,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#005f73",
     marginBottom: 30,
     textAlign: "center",
@@ -126,7 +108,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#0077b6",
     paddingVertical: 15,
-    paddingHorizontal: 100,
+    paddingHorizontal: 60,
     borderRadius: 30,
     elevation: 5,
     shadowColor: "#000",
@@ -141,7 +123,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
-  registerText: {
+  backToLoginText: {
     fontSize: 16,
     color: "#00334d",
     marginTop: 10,

@@ -11,7 +11,7 @@ export default function Home() {
   const parsedRecommendations = recommendations ? JSON.parse(recommendations as string) : [];
 
   const [questionnaireCompleted, setQuestionnaireCompleted] = useState<boolean>(parsedRecommendations.length > 0);
-
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     if (parsedRecommendations.length > 0) {
       setQuestionnaireCompleted(true);
@@ -29,7 +29,9 @@ export default function Home() {
       <LinearGradient colors={["#e0f7fa", "#80deea", "#26c6da"]} style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
 
-          {/* Questionnaire Reminder */}
+          {/* Welcome Message */}
+          <Text style={styles.welcomeText}>Welcome, Aashish! 👋</Text>
+            {/* Questionnaire Reminder */}
           {!questionnaireCompleted && (
             <TouchableOpacity
               style={styles.questionnaireBox}
@@ -40,15 +42,13 @@ export default function Home() {
               </Text>
             </TouchableOpacity>
           )}
-
-          {/* Welcome Message */}
-          <Text style={styles.welcomeText}>Welcome, Aashish! 👋</Text>
-
+            {/* Questionnaire Status */}
           {/* Search Bar */}
           <TextInput
             style={styles.searchInput}
             placeholder="Search programs, courses..."
             placeholderTextColor="#666"
+            onChangeText={(text) => setSearchTerm(text)}
           />
 
           {/* Recommended Program */}
