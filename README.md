@@ -31,7 +31,11 @@ This app helps students find the best-matched university programs based on their
 
 ## APP VIDEO GUIDE
 
-|
+
+
+https://github.com/user-attachments/assets/d678c47b-0387-4fef-9298-cbb1b4dd8676
+
+
 
 ---
 
